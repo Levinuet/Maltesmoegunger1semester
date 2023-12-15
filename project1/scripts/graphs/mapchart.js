@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Definer dit API-endepunkt for 'changes' viewet
       const apiEndpoint =
-        "https://Maltesmoegunger1semester.onrender.com/changes";
+        "https://maltesmoegunger1semester.onrender.com/changes";
 
       // Hent data fra API
       d3.json(apiEndpoint).then((response) => {

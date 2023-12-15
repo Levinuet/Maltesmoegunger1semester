@@ -30,7 +30,7 @@ const questions = [
   {
     question:
       "Hvilke faktorer har haft størst indflydelse på skovrydningen af den brasilianske regnskov?",
-    apiEndpoint: "https://maltesmoegungerne.onrender.com/brazil",
+    apiEndpoint: "https://maltesmoegunger1semester.onrender.com/brazil",
     yAxis: "pasture",
     xAxis: "year",
     graphType: "stacked",
@@ -58,7 +58,7 @@ const questions = [
   },
   {
     question: "Hvor meget skov er blevet afbrændt i Brasilien fra 2000-2017?",
-    apiEndpoint: "https://maltesmoegungerne.onrender.com/brazilfires",
+    apiEndpoint: "https://maltesmoegunger1semester.onrender.com/brazilfires",
     yAxis: "Brand",
     xAxis: "d.year",
     graphType: "bar",
@@ -87,7 +87,8 @@ const questions = [
   {
     question:
       "Hvilket land i Amazonas har genoprettet mest skov mellem 2000-2020?",
-    apiEndpoint: "https://maltesmoegungerne.onrender.com/growingyearamazon",
+    apiEndpoint:
+      "https://maltesmoegunger1semester.onrender.com/growingyearamazon",
     yAxis: "year",
     xAxis: "skovudvidelse",
     graphType: "line",
@@ -116,7 +117,7 @@ const questions = [
   {
     question:
       "Hvor mange hektar skov bliver hvert år tabt i hele verden pågrund af bakterier, fungus og virusser?",
-    apiEndpoint: "https://maltesmoegungerne.onrender.com/totalannual",
+    apiEndpoint: "https://maltesmoegunger1semester.onrender.com/totalannual",
     yAxis: "total_diseases",
     xAxis: "year",
     graphType: "barz",
