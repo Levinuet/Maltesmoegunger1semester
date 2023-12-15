@@ -1,1 +1,910 @@
-:)
+CREATE VIEW "Skov Ændringer"
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_primary" as "Net Ændringer"
+FROM forest
+WHERE "1c_primary" IS NOT NULL AND "iso3" = 'BRA'
+ORDER BY "year" desc, "1c_primary" DESC;
+
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_tempUnstocked"
+FROM forest
+WHERE "1c_tempUnstocked" IS NOT NULL AND "iso3" = 'BRA'
+
+CREATE TABLE forest_data (
+    "Entity" VARCHAR(255),
+    "Code" VARCHAR(10),
+    "Year" INT,
+    "AnnualNetChangeInForestArea" FLOAT
+);
+
+CREATE TABLE Forest (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "1d_expansion" FLOAT,
+    "1d_afforestation" FLOAT,
+    "1d_nat_exp" FLOAT,
+    "1d_deforestation" FLOAT,
+    "1e_reforestation" FLOAT
+);
+
+SELECT *
+FROM forest_intervals
+WHERE "iso3" = "AUT"
+
+CREATE TABLE forest_annual (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" INT,
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "5a_insect" FLOAT,
+    "5a_diseases" FLOAT,
+    "5a_weather" FLOAT,
+    "5a_other" FLOAT,
+    "5b_fire_land" FLOAT,
+    "5b_fire_forest" FLOAT
+);
+
+CREATE VIEW "Skov Ændringer"
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_primary" as "Net Ændringer"
+FROM forest
+WHERE "1c_primary" IS NOT NULL AND "iso3" = 'BRA'
+ORDER BY "year" desc, "1c_primary" DESC;
+
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_tempUnstocked"
+FROM forest
+WHERE "1c_tempUnstocked" IS NOT NULL AND "iso3" = 'BRA'
+
+CREATE TABLE forest_data (
+    "Entity" VARCHAR(255),
+    "Code" VARCHAR(10),
+    "Year" INT,
+    "AnnualNetChangeInForestArea" FLOAT
+);
+
+CREATE TABLE Fores (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "1d_expansion" FLOAT,
+    "1d_afforestation" FLOAT,
+    "1d_nat_exp" FLOAT,
+    "1d_deforestation" FLOAT,
+    "1e_reforestation" FLOAT
+);
+
+SELECT *
+FROM forest_intervals
+WHERE "iso3" = "AUT"
+
+CREATE TABLE forest_annual (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" INT,
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "5a_insect" FLOAT,
+    "5a_diseases" FLOAT,
+    "5a_weather" FLOAT,
+    "5a_other" FLOAT,
+    "5b_fire_land" FLOAT,
+    "5b_fire_forest" FLOAT
+);
+
+
+CREATE VIEW "Skov Changes" AS
+SELECT forest_intervals."name" AS "Lande Navn", forest_intervals."year" AS "År", forest_intervals."1d_deforestation" AS "Net Ændringer"
+FROM forest_intervals
+WHERE "1d_deforestation" IS NOT NULL
+ORDER BY "1d_deforestation" desc
+
+
+
+ALTER TABLE original_table
+ADD CONSTRAINT fk_iso3
+FOREIGN KEY (iso3) REFERENCES Forest_Info (iso3);
+
+UPDATE forest
+SET
+    regions = fi.regions,
+    name = fi.name,
+    boreal = fi.boreal,
+    temperate = fi.temperate,
+    tropical = fi.tropical,
+    subtropical = fi.subtropical
+FROM Forest_Info fi
+WHERE forest.iso3 = fi.iso3;
+
+UPDATE original_table
+SET
+    regions = fi.regions,
+    name = fi.name,
+    boreal = fi.boreal,
+    temperate = fi.temperate,
+    tropical = fi.tropical,
+    subtropical = fi.subtropical
+FROM Forest_Info fi
+WHERE original_table.iso3 = fi.iso3;
+
+
+INSERT INTO Forest_Info ("iso3", "name", "regions", "boreal", "temperate", "tropical", "subtropical")
+SELECT DISTINCT ON (iso3) iso3, name, regions, boreal, temperate, tropical, subtropical
+FROM forest
+ORDER BY iso3;
+
+CREATE TABLE IF NOT EXISTS Forest_Info (
+    "Forest_id" SERIAL PRIMARY KEY,
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "regions" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT
+);
+
+
+CREATE TABLE IF NOT EXISTS Forest_Info (
+	"Forest_id" SERIAL PRIMARY KEY,
+	"iso3" VARCHAR(3),
+	"name" VARCHAR(255),
+    "regions" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT
+);
+
+SELECT *
+FROM changes
+WHERE År = '2015-2020'
+
+SELECT SUM("Net Ændringer") AS Total_Changes
+FROM changes
+WHERE År = '2015-2020';
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+
+
+SELECT *
+FROM changes
+WHERE "Net Ændringer" >= 1 and "År" = '2015-2020'
+ORDER BY "Net Ændringer"
+
+ SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+   FROM forest_intervals
+  WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision
+  ORDER BY forest_intervals."1d_deforestation" DESC;
+
+
+CREATE VIEW "smallchanges" AS
+SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+FROM forest_intervals
+WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision and "1d_deforestation" >= 1 and "year" = '2015-2020'
+ORDER BY "Net Ændringer 
+
+SELECT ISO3, "name", Year,  "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL AND "1e_reforestation" >= 1
+ORDER BY "1e_reforestation" desc
+
+
+CREATE VIEW "reforest90_00" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '1990-2000' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+
+CREATE VIEW "reforest15_20" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '2015-2020' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+CREATE VIEW "forestfires" AS
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE VIEW "brazilfires"
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+		AND forest_annual.ISO3 = 'BRA'
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE TABLE forest_brazil (
+    name VARCHAR(255),
+    iso3 VARCHAR(10),
+    Year INT,
+    flooding_due_to_dams INT,
+    natural_disturbances INT,
+    fire INT,
+    selective_logging INT,
+    other_infrastructure INT,
+    roads INT,
+    mining INT,
+    small_scale_clearing INT,
+    tree_plantations_including_palm INT,
+    pasture INT,
+    commercial_crops INT
+);
+
+SELECT 
+    (SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops)) * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+	
+SELECT 
+    SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) AS total_of_all_sums
+FROM 
+    forest_brazil;
+
+
+SELECT 
+    SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) * 100
+FROM 
+    forest_brazil;
+
+CREATE VIEW "pasturepercentage" AS
+SELECT 
+    (CAST(SUM(pasture) AS FLOAT) / NULLIF(SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops), 0)) 
+	 * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+CREATE VIEW "Skov Ændringer"
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_primary" as "Net Ændringer"
+FROM forest
+WHERE "1c_primary" IS NOT NULL AND "iso3" = 'BRA'
+ORDER BY "year" desc, "1c_primary" DESC;
+
+
+SELECT "iso3" as Landekode, "name" as "Lande Navn", "year" as "År", "1c_tempUnstocked"
+FROM forest
+WHERE "1c_tempUnstocked" IS NOT NULL AND "iso3" = 'BRA'
+
+CREATE TABLE forest_data (
+    "Entity" VARCHAR(255),
+    "Code" VARCHAR(10),
+    "Year" INT,
+    "AnnualNetChangeInForestArea" FLOAT
+);
+
+CREATE TABLE Fores (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "1d_expansion" FLOAT,
+    "1d_afforestation" FLOAT,
+    "1d_nat_exp" FLOAT,
+    "1d_deforestation" FLOAT,
+    "1e_reforestation" FLOAT
+);
+
+SELECT *
+FROM forest_intervals
+WHERE "iso3" = "AUT"
+
+CREATE TABLE forest_annual (
+    "regions" VARCHAR(255),
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "year" INT,
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT,
+    "5a_insect" FLOAT,
+    "5a_diseases" FLOAT,
+    "5a_weather" FLOAT,
+    "5a_other" FLOAT,
+    "5b_fire_land" FLOAT,
+    "5b_fire_forest" FLOAT
+);
+
+
+CREATE VIEW "Skov Changes" AS
+SELECT forest_intervals."name" AS "Lande Navn", forest_intervals."year" AS "År", forest_intervals."1d_deforestation" AS "Net Ændringer"
+FROM forest_intervals
+WHERE "1d_deforestation" IS NOT NULL
+ORDER BY "1d_deforestation" desc
+
+
+
+ALTER TABLE original_table
+ADD CONSTRAINT fk_iso3
+FOREIGN KEY (iso3) REFERENCES Forest_Info (iso3);
+
+UPDATE forest
+SET
+    regions = fi.regions,
+    name = fi.name,
+    boreal = fi.boreal,
+    temperate = fi.temperate,
+    tropical = fi.tropical,
+    subtropical = fi.subtropical
+FROM Forest_Info fi
+WHERE forest.iso3 = fi.iso3;
+
+UPDATE original_table
+SET
+    regions = fi.regions,
+    name = fi.name,
+    boreal = fi.boreal,
+    temperate = fi.temperate,
+    tropical = fi.tropical,
+    subtropical = fi.subtropical
+FROM Forest_Info fi
+WHERE original_table.iso3 = fi.iso3;
+
+
+INSERT INTO Forest_Info ("iso3", "name", "regions", "boreal", "temperate", "tropical", "subtropical")
+SELECT DISTINCT ON (iso3) iso3, name, regions, boreal, temperate, tropical, subtropical
+FROM forest
+ORDER BY iso3;
+
+CREATE TABLE IF NOT EXISTS Forest_Info (
+    "Forest_id" SERIAL PRIMARY KEY,
+    "iso3" VARCHAR(3),
+    "name" VARCHAR(255),
+    "regions" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT
+);
+
+
+CREATE TABLE IF NOT EXISTS Forest_Info (
+	"Forest_id" SERIAL PRIMARY KEY,
+	"iso3" VARCHAR(3),
+	"name" VARCHAR(255),
+    "regions" VARCHAR(255),
+    "boreal" FLOAT,
+    "temperate" FLOAT,
+    "tropical" FLOAT,
+    "subtropical" FLOAT
+);
+
+SELECT *
+FROM changes
+WHERE År = '2015-2020'
+
+SELECT SUM("Net Ændringer") AS Total_Changes
+FROM changes
+WHERE År = '2015-2020';
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+
+
+SELECT *
+FROM changes
+WHERE "Net Ændringer" >= 1 and "År" = '2015-2020'
+ORDER BY "Net Ændringer"
+
+ SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+   FROM forest_intervals
+  WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision
+  ORDER BY forest_intervals."1d_deforestation" DESC;
+
+
+CREATE VIEW "smallchanges" AS
+SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+FROM forest_intervals
+WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision and "1d_deforestation" >= 1 and "year" = '2015-2020'
+ORDER BY "Net Ændringer 
+
+SELECT ISO3, "name", Year,  "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL AND "1e_reforestation" >= 1
+ORDER BY "1e_reforestation" desc
+
+
+CREATE VIEW "reforest90_00" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '1990-2000' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+
+CREATE VIEW "reforest15_20" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '2015-2020' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+CREATE VIEW "forestfires" AS
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE VIEW "brazilfires"
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+		AND forest_annual.ISO3 = 'BRA'
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE TABLE forest_brazil (
+    name VARCHAR(255),
+    iso3 VARCHAR(10),
+    Year INT,
+    flooding_due_to_dams INT,
+    natural_disturbances INT,
+    fire INT,
+    selective_logging INT,
+    other_infrastructure INT,
+    roads INT,
+    mining INT,
+    small_scale_clearing INT,
+    tree_plantations_including_palm INT,
+    pasture INT,
+    commercial_crops INT
+);
+
+SELECT 
+    (SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops)) * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+	
+SELECT 
+    SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) AS total_of_all_sums
+FROM 
+    forest_brazil;
+
+
+SELECT 
+    SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) * 100
+FROM 
+    forest_brazil;
+
+CREATE VIEW "pasturepercentage" AS
+SELECT 
+    (CAST(SUM(pasture) AS FLOAT) / NULLIF(SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops), 0)) 
+	 * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+
+SELECT *
+FROM changes
+WHERE År = '2015-2020'
+
+SELECT SUM("Net Ændringer") AS Total_Changes
+FROM changes
+WHERE År = '2015-2020';
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+ALTER TABLE forest_intervals
+DROP COLUMN regions,
+DROP COLUMN name,
+DROP COLUMN boreal,
+DROP COLUMN temperate,
+DROP COLUMN tropical,
+DROP COLUMN subtropical;
+
+
+
+SELECT *
+FROM changes
+WHERE "Net Ændringer" >= 1 and "År" = '2015-2020'
+ORDER BY "Net Ændringer"
+
+ SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+   FROM forest_intervals
+  WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision
+  ORDER BY forest_intervals."1d_deforestation" DESC;
+
+
+CREATE VIEW "smallchanges" AS
+SELECT forest_intervals.name AS "Lande Navn",
+    forest_intervals.year AS "År",
+    forest_intervals."1d_deforestation" AS "Net Ændringer"
+FROM forest_intervals
+WHERE forest_intervals."1d_deforestation" IS NOT NULL AND forest_intervals."1d_deforestation" <> 0::double precision and "1d_deforestation" >= 1 and "year" = '2015-2020'
+ORDER BY "Net Ændringer 
+
+SELECT ISO3, "name", Year,  "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL AND "1e_reforestation" >= 1
+ORDER BY "1e_reforestation" desc
+
+
+CREATE VIEW "reforest90_00" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '1990-2000' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+
+CREATE VIEW "reforest15_20" AS
+SELECT ISO3, "name", Year, "1e_reforestation"
+FROM forest_intervals
+WHERE "1e_reforestation" IS NOT NULL 
+		AND "1e_reforestation" >= 0.001 
+		AND year = '2015-2020' 
+		AND "iso3" != 'AFG'
+		AND "iso3" != 'AUS'
+		AND "iso3" != 'BEL' 
+		AND "iso3" != 'BEN' 
+		AND "iso3" != 'BOL' 
+		AND "iso3" != 'BIH' 
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'BEN'
+		AND "iso3" != 'ECU'
+		AND "iso3" != 'ERI'
+		AND "iso3" != 'FRA'
+		AND "iso3" != 'GIN'
+		AND "iso3" != 'HND'
+		AND "iso3" != 'ISR'
+		AND "iso3" != 'ITA'
+		AND "iso3" != 'LBN'
+		AND "iso3" != 'LTU'
+		AND "iso3" != 'LUX'
+		AND "iso3" != 'MNE'
+		AND "iso3" != 'MOZ'
+		AND "iso3" != 'NPL'
+		AND "iso3" != 'MKD'
+		AND "iso3" != 'PAK'
+		AND "iso3" != 'PRT'
+		AND "iso3" != 'VCT'
+		AND "iso3" != 'SVN'
+		AND "iso3" != 'TGO'
+		AND "iso3" != 'URY'
+		AND "iso3" != 'ZMB'
+ORDER BY year ASC, "1e_reforestation" DESC;
+
+CREATE VIEW "forestfires" AS
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE VIEW "brazilfires"
+SELECT forest_annual.ISO3, forest_info."name", forest_annual.Year, forest_annual."5b_fire_land" AS "Brand"
+FROM forest_annual
+JOIN forest_info ON forest_annual.iso3 = forest_info.iso3
+WHERE forest_annual."5b_fire_land" IS NOT NULL 
+		AND forest_annual."5b_fire_land" != 0
+		AND forest_annual.ISO3 = 'BRA'
+ORDER BY forest_info."name" ASC, forest_annual.Year ASC
+
+CREATE TABLE forest_brazil (
+    name VARCHAR(255),
+    iso3 VARCHAR(10),
+    Year INT,
+    flooding_due_to_dams INT,
+    natural_disturbances INT,
+    fire INT,
+    selective_logging INT,
+    other_infrastructure INT,
+    roads INT,
+    mining INT,
+    small_scale_clearing INT,
+    tree_plantations_including_palm INT,
+    pasture INT,
+    commercial_crops INT
+);
+
+SELECT 
+    (SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops)) * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+	
+SELECT 
+    SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) AS total_of_all_sums
+FROM 
+    forest_brazil;
+
+
+SELECT 
+    SUM(pasture) / SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops) * 100
+FROM 
+    forest_brazil;
+
+CREATE VIEW "pasturepercentage" AS
+SELECT 
+    (CAST(SUM(pasture) AS FLOAT) / NULLIF(SUM(flooding_due_to_dams + natural_disturbances + fire + selective_logging + other_infrastructure + roads + mining + small_scale_clearing + tree_plantations_including_palm + pasture + commercial_crops), 0)) 
+	 * 100 AS pasture_percentage_of_total
+FROM 
+    forest_brazil;
+
+SELECT 
+    forest_info.name AS "Lande Navn",
+    fi.year AS "År",
+    fi."1d_deforestation" AS "Net Ændringer"
+FROM 
+    forest_intervals fi
+JOIN 
+    forest_info f_info ON fi.iso3 = f_info.iso3
+WHERE 
+    fi."1d_deforestation" IS NOT NULL 
+    AND fi."1d_deforestation" <> 0
+    AND fi."1d_deforestation" >= 1 
+    AND fi.year = '2015-2020'
+ORDER BY 
+    fi."1d_deforestation";<
+
+
+
+WHERE iso3 = 'USA
+
+'CREATE VIEW view_name AS
+SELECT 
+    iso3,
+    CAST(SUBSTRING(year FROM 6 FOR 4) AS INTEGER) AS year, -- Extracts the last four characters and casts to integer
+    "1d_expansion",
+    "1d_afforestation",
+    "1d_nat_exp
+
+
+SELECT fi.iso3,
+    f_info.name,
+    CAST(SUBSTRING(year FROM 6 FOR 4) AS INTEGER) AS year,
+    COALESCE(fi."1d_afforestation", 0::double precision) + COALESCE(fi."1e_reforestation", 0::double precision) AS skovudvidelse
+   FROM forest_intervals fi
+     JOIN forest_info f_info ON fi.iso3::text = f_info.iso3::text
+  WHERE (fi.iso3::text = ANY (ARRAY['BOL'::character varying, 'BRA'::character varying, 'COL'::character varying, 'ECU'::character varying, 'GUY'::character varying, 'PER'::character varying, 'SUR'::character varying, 'VEN'::character varying, 'GUF'::character varying]::text[])) AND (fi."1d_afforestation" IS NOT NULL OR fi."1e_reforestation" IS NOT NULL);
+
+ SELECT fi.iso3,
+    f_info.name,
+    fi.year,
+    COALESCE(fi."1d_afforestation", 0::double precision) + COALESCE(fi."1e_reforestation", 0::double precision) AS skovudvidelse
+   FROM forest_intervals fi
+     JOIN forest_info f_info ON fi.iso3::text = f_info.iso3::text
+  WHERE (fi.iso3::text = ANY (ARRAY['BOL'::character varying, 'BRA'::character varying, 'COL'::character varying, 'ECU'::character varying, 'GUY'::character varying, 'PER'::character varying, 'SUR'::character varying, 'VEN'::character varying, 'GUF'::character varying]::text[])) AND (fi."1d_afforestation" IS NOT NULL OR fi."1e_reforestation" IS NOT NULL);
+
+CREATE VIEW totalannual AS
+SELECT 
+    year,
+    SUM("5a_insect") AS "total Insect",
+    SUM("5a_diseases") AS "total diseases",
+    SUM("5a_weather") AS "total weather",
+    SUM("5a_other") AS "total other",
+    SUM("5b_fire_land") AS "total fire_land",
+    SUM("5b_fire_forest") AS "total fire_forest"
+FROM 
+    forest_annual
+GROUP BY 
+    year
+ORDER BY year
+  
